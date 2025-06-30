@@ -1,9 +1,10 @@
 import React from "react";
 import './Home.css'
+import Cabeca from "../Cabeca/Cabeca";
 
 function Home () {
     return(
-        <h1>Teste funcionando</h1>
+        <Cabeca/>
     )
 }
 

@@ -1,5 +1,14 @@
+.Tela{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('../../assets/bda-arbeitgeber-strukturwandel_header-adobestock_vegefox_com.jpg');
+    background-size: cover;
+    background-position: center;
+}
 .Login{
-    background-color: rgba(221, 217, 217, 0.15);
+    background-color: rgba(221, 217, 217, 0.25);
     backdrop-filter: blur(10px);
     padding: 40px;
     border-radius: 10px;

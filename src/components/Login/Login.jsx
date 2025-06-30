@@ -16,6 +16,7 @@ function Login () {
   };
 
   return (
+    <div className="Tela">
     <div className="Login">
     <form onSubmit={handleSubmit}>
       <h1>Login</h1>
@@ -38,6 +39,7 @@ function Login () {
       <button type="submit" onClick={handleSubmit}>Enter</button>
     </form> 
     <a href="">Esqueceu a senha?</a>
+    </div>
     </div>
      
   );
