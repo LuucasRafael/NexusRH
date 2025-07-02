@@ -1,19 +1,29 @@
 .Corpo {
     background-image: url('../../assets/bda-arbeitgeber-strukturwandel_header-adobestock_vegefox_com.jpg');
     width: 100%;
-    height: 6vh
+    height: 6vh;
 }
 
 .Corpo img {
     width: 23vh
 }
-.Corpo button {
-    background-color: green;
+
+.Corpo button  {
+    position: absolute; 
+    right: 20px;
+    top: 1%;
+    background-color: Firebrick;
     color: white;
     cursor: pointer;
     width: 10vh;
     height: 4.2vh;
     outline: none;
     border-radius: 40px;
+    border: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.Corpo button:hover {
+    background-color: darkred; 
 }
