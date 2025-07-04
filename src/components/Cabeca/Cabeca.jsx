@@ -13,8 +13,7 @@ function Cabeca () {
         const intervalId = setInterval(() => {
            var date = new Date();
           setCurrentDateTime(date.toLocaleString('pt-BR'));
-        }, 1000); // Update every second
-        // Cleanup function to clear the interval when the component unmounts
+        }, 1000); 
         return () => clearInterval(intervalId);
       }, [])
 
