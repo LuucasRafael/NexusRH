@@ -1,19 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './Login.css'
+import axios from 'axios';
 
 function Login () {
   const [Email, setEmail] = useState("");
   const [Senha, setSenha] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Dados enviados:", Email,Senha);
-    //alert("Formulário enviado com sucesso!");
-    // Aqui você pode enviar os dados para um servidor, por exemplo.
-    navigate("/Home")
-  };
+     try {
+          const response = await axios.post('http://localhost:3001/login', {
+            username: Email,
+            password: Senha
+          });
+          alert(response.data.message); 
+           navigate("/Home")
+        } catch (error) {
+          if (error.response && error.response.data) {
+           console.log(error.response.data.error); // backend enviou erro
+          } else {
+           console.error('Erro inesperado:', error);
+         }
+        }
+      };
 
   return (
     <div className="Tela">
@@ -36,7 +48,7 @@ function Login () {
           onChange={(e)=> setSenha(e.target.value)}
         />
       </div>
-      <button type="submit" onClick={handleSubmit}>Enter</button>
+      <button type="submit">Enter</button>
     </form> 
     <a href="">Esqueceu a senha?</a>
     </div>
