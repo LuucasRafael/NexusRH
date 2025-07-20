@@ -1,0 +1,55 @@
+.Corpo {
+    background-image: url('../../assets/bda-arbeitgeber-strukturwandel_header-adobestock_vegefox_com.jpg');
+    width: 100%;
+    height: 6vh;
+}
+
+.Corpo img {
+    width: 23vh
+}
+
+.Corpo #bp  {
+    position: absolute; 
+    right: 99px;
+    top: 1%;
+    background-color: white;
+    color: white;
+    cursor: pointer;
+    width: 0vh;
+    height: 4.2vh;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.Corpo #bp:hover {
+    background-color: darkgray; 
+}
+.Corpo p{
+    position: absolute; 
+    right: 110px;
+    top: 1.5%;
+    color: white;
+}
+.Corpo #Sair  {
+    position: absolute; 
+    right: 20px;
+    top: 1%;
+    background-color: Firebrick;
+    color: white;
+    cursor: pointer;
+    width: 8vh;
+    height: 4.2vh;
+    outline: none;
+    border-radius: 40px;
+    border: black solid;
+    border-width: 1px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.Corpo #Sair:hover {
+    background-color: darkred; 
+}
