@@ -14,7 +14,7 @@ const db = mysql.createConnection({
 });
 
 app.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, nome } = req.body;
 
   console.log('Recebido do front-end:', username, password);
 
@@ -31,7 +31,12 @@ app.post('/login', (req, res) => {
     const user = result[0];
 
     if (password === user.password) {
-      res.json({ message: 'Login realizado com sucesso' });
+      res.json({
+    message: 'Login realizado com sucesso',
+        id: user.id,
+        nome: user.nome,
+        username: user.username
+  });
     } else {
       res.status(401).json({ error: 'Senha incorreta' });
     }

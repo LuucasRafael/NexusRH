@@ -17,6 +17,10 @@ function Login () {
             password: Senha
           });
           alert(response.data.message); 
+           const usuarioLogado = response.data;
+           console.log(response.data);
+           localStorage.setItem("usuario", JSON.stringify(usuarioLogado));
+
            navigate("/Home")
         } catch (error) {
           if (error.response && error.response.data) {
@@ -53,8 +57,8 @@ function Login () {
     <a href="">Esqueceu a senha?</a>
     </div>
     </div>
-     
+
   );
 }
-  
+
   export default Login

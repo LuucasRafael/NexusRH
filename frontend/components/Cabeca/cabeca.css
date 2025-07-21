@@ -10,27 +10,26 @@
 
 .Corpo #bp  {
     position: absolute; 
-    right: 200px;
+    right: 105px;
     top: 1%;
-    background-color: Firebrick;
+    background-color: white;
     color: white;
     cursor: pointer;
-    width: 10vh;
+    width: 0vh;
     height: 4.2vh;
     outline: none;
-    border-radius: 40px;
-    border: black solid;
-    border-width: 1px;
+    border: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    transition: all 0.3s ease;
 }
 
 .Corpo #bp:hover {
-    background-color: darkred; 
+    background-color: darkgray; 
 }
 .Corpo p{
     position: absolute; 
-    right: 100px;
+    right: 110px;
     top: 1.5%;
     color: white;
 }
@@ -41,7 +40,7 @@
     background-color: Firebrick;
     color: white;
     cursor: pointer;
-    width: 7vh;
+    width: 8vh;
     height: 4.2vh;
     outline: none;
     border-radius: 40px;
