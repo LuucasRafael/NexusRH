@@ -10,13 +10,13 @@ const MenuLateral = ({ aberto, toggleMenu }) => {
       </div>
       <ul>
         <li className="item-menu">
-          <a href="Pagina.html">
+          <a href="/Home">
             <span className="icon"><i className="bi bi-house-door"></i></span>
             {aberto && <span className="txt-link">Home</span>}
           </a>
         </li>
         <li className="item-menu">
-          <a href="menu.html">
+          <a href="/Funcionarios">
             <span className="icon"><i className="bi bi-controller"></i></span>
             {aberto && <span className="txt-link">Games</span>}
           </a>

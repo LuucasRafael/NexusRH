@@ -13,7 +13,7 @@ function Login () {
     console.log("Dados enviados:", Email,Senha);
      try {
           const response = await axios.post('http://localhost:3001/login', {
-            username: Email,
+            email: Email,
             password: Senha
           });
           alert(response.data.message); 

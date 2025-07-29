@@ -1,0 +1,88 @@
+.layout-geral {
+  display: flex;
+  flex-direction: column;
+}
+
+.conteudo-principal {
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.btn-cadastrar {
+  background-color: #2d89ef;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cadastrar:hover {
+  background-color: #1b5fa7;
+}
+
+.lista-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card-funcionario {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-funcionario h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #2d89ef;
+}
+
+.card-funcionario p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.botoes-card {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-editar,
+.btn-apagar {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-editar {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.btn-editar:hover {
+  background-color: #d4910f;
+}
+
+.btn-apagar {
+  background-color: #d9534f;
+  color: white;
+}
+
+.btn-apagar:hover {
+  background-color: #a2322a;
+}
