@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29/07/2025 às 06:35
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Tempo de geração: 31/07/2025 às 01:58
+-- Versão do servidor: 10.4.28-MariaDB
+-- Versão do PHP: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,8 +32,8 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `nome` varchar(245) NOT NULL,
-  `Data Nasc` date DEFAULT NULL,
-  `Data Adm` date DEFAULT NULL,
+  `DataNasc` date DEFAULT NULL,
+  `DataAdm` date DEFAULT NULL,
   `Aso` date DEFAULT NULL,
   `Cargo` varchar(150) NOT NULL,
   `Telefone` varchar(15) NOT NULL,
@@ -44,8 +44,13 @@ CREATE TABLE `users` (
 -- Despejando dados para a tabela `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `nome`, `Data Nasc`, `Data Adm`, `Aso`, `Cargo`, `Telefone`, `CPF`) VALUES
-(1, 'adm@gmail.com', '123456', 'Adm', '1985-01-01', '2025-01-01', '2025-01-02', 'Administrador', '81988888888', '123.456.789-11');
+INSERT INTO `users` (`id`, `email`, `password`, `nome`, `DataNasc`, `DataAdm`, `Aso`, `Cargo`, `Telefone`, `CPF`) VALUES
+(1, 'adm@gmail.com', '123456', 'Adm', '1985-01-01', '2025-01-01', '2025-01-02', 'Administrador', '81988888888', '123.456.789-11'),
+(3, 'Lucas', '123456', 'lshdib', NULL, '0000-00-00', '0000-00-00', 'Adm', '8693-2596', '123.265.598-23'),
+(4, 'Lucas', '123456', 'lshdib', NULL, '0000-00-00', '0000-00-00', 'Adm', '8693-2596', '123.265.598-23'),
+(6, 'Luca', '123456', 'lshdib', NULL, '0000-00-00', '0000-00-00', 'Adm', '8693-2596', '123.265.598-23'),
+(7, 'Luca', '123456', 'lshdib', '0000-00-00', '0000-00-00', '0000-00-00', 'Adm', '8693-2596', '123.265.598-23'),
+(8, 'jhk@hfgh.hg', 'password', 'kj', '2000-05-02', '2025-08-02', '5236-12-02', 'jkjko', '12332144123', '12312312312');
 
 --
 -- Índices para tabelas despejadas
@@ -65,7 +70,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

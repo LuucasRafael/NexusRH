@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import './Cadastro.css';
 import { useNavigate } from "react-router-dom";
 import Cabeca from "../Cabeca/Cabeca";
@@ -33,7 +33,7 @@ function CadastroFuncionario() {
   }
 
   // Função para enviar os dados ao backend
-  function handleSubmit(e) {
+  async function  handleSubmit(e) {
     e.preventDefault();
 
     // Validação simples dos campos
@@ -46,35 +46,47 @@ function CadastroFuncionario() {
     const novoFuncionario = {
       nome: nome.trim(),
       email: email.trim(),
-      cpf: cpf.trim(),
-      telefone: telefone.trim(),
-      cargo: cargo.trim(),
-      dataAdmissao,     // formato 'YYYY-MM-DD' vindo do input date
-      dataNascimento,   // formato 'YYYY-MM-DD'
-      dataAso           // formato 'YYYY-MM-DD'
+      password: "password", // Você não está coletando a senha no frontend, mas seu backend espera.
+                          // Se não for necessário no cadastro inicial, remova do backend ou adicione no frontend.
+      CPF: cpf.trim(),       // MUDADO: 'CPF' maiúsculo
+      Telefone: telefone.trim(), // MUDADO: 'Telefone' maiúsculo
+      Cargo: cargo.trim(),     // MUDADO: 'Cargo' maiúsculo
+      DataAdm: dataAdmissao,   // MUDADO: 'DataAdm' maiúsculo
+      DataNasc: dataNascimento, // MUDADO: 'DataNasc' maiúsculo
+      Aso: dataAso
     };
 
     // Envia para backend
-    fetch('http://localhost:3001/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(novoFuncionario),
-    })
-      .then(async res => {
-        if (!res.ok) {
-          const errorData = await res.json().catch(() => ({}));
-          throw new Error(errorData.error || 'Erro desconhecido ao cadastrar');
-        }
-        return res.json();
-      })
-      .then(data => {
-        alert('Funcionário cadastrado com sucesso!');
-        limparCampos();
-        navigate('/');
-      })
-      .catch(err => {
-        alert('Erro ao cadastrar funcionário: ' + err.message);
+    try {
+      const res = await fetch('http://localhost:3001/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(novoFuncionario),
       });
+
+      if (!res.ok) {
+        let errorData = {};
+        try {
+          // Tenta parsear a resposta como JSON. Isso é útil se o backend enviar erros formatados em JSON.
+          errorData = await res.json();
+        } catch (jsonError) {
+          // Se o parsing falhar (ex: resposta não é JSON ou está vazia),
+          // use uma mensagem de erro genérica ou o status text.
+          console.error('Falha ao parsear JSON de erro:', jsonError);
+          errorData = { error: res.statusText || 'Erro no servidor (resposta não-JSON ou vazia)' };
+        }
+        // Lança um erro com a mensagem do backend ou uma mensagem padrão
+        throw new Error(errorData.error || `Erro ao cadastrar funcionário: Status ${res.status}`);
+      }
+
+      const data = await res.json(); // Se a resposta for OK, parseia o JSON de sucesso
+      alert('Funcionário cadastrado com sucesso!');
+      limparCampos();
+      navigate('/'); // Redireciona para a página principal ou lista
+    } catch (err) {
+      alert('Erro ao cadastrar funcionário: ' + err.message);
+      console.error('Erro detalhado:', err); // Para depuração
+    }
   }
 
   return (
@@ -133,7 +145,7 @@ function CadastroFuncionario() {
               <button
                 type="button"
                 className="btn-voltar"
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/funcionario')}
               >
                 Voltar
               </button>

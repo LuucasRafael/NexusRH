@@ -36,6 +36,12 @@ function ListaUsers() {
       .catch(err => alert(err.message));
   }
 
+  function convertdata(datastring){
+    const dt = new Date(datastring);
+    return dt.toLocaleDateString("pt-BR");
+
+  }
+
   return (
     <div className="layout-geral">
       <MenuLateral aberto={menuAberto} toggleMenu={toggleMenu} />
@@ -66,12 +72,12 @@ function ListaUsers() {
                 <div key={user.id} className="card-funcionario">
                   <h3>{user.nome}</h3>
                   <p><strong>Email:</strong> {user.email}</p>
-                  <p><strong>CPF:</strong> {user.cpf}</p>
-                  <p><strong>Telefone:</strong> {user.telefone}</p>
-                  <p><strong>Cargo:</strong> {user.cargo}</p>
-                  <p><strong>Data de Admissão:</strong> {user.dataAdmissao}</p>
-                  <p><strong>Data de Nascimento:</strong> {user.dataNascimento}</p>
-                  <p><strong>Data do ASO:</strong> {user.dataAso}</p>
+                  <p><strong>CPF:</strong> {user.CPF}</p>
+                  <p><strong>Telefone:</strong> {user.Telefone}</p>
+                  <p><strong>Cargo:</strong> {user.Cargo}</p>
+                  <p><strong>Data de Admissão:</strong> {convertdata(user.DataAdm)}</p>
+                  <p><strong>Data de Nascimento:</strong> {convertdata(user.DataNasc)}</p>
+                  <p><strong>Data do ASO:</strong> {convertdata(user.Aso)}</p>
                   <div className="botoes-card">
                     <button
                       className="btn-editar"

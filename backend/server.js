@@ -45,7 +45,7 @@ app.get('/users', (req, res) => {
 
 // POST criar usuário (com os novos campos)
 app.post('/users', (req, res) => {
-  const { nome, email, cpf, telefone, cargo, dataAdmissao, dataNascimento, dataAso } = req.body;
+  const { nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso, password } = req.body;
 
   if (!nome || !email) {
     return res.status(400).json({ error: 'Nome e email são obrigatórios' });
@@ -53,20 +53,20 @@ app.post('/users', (req, res) => {
 
   const query = `
     INSERT INTO users 
-      (nome, email, cpf, telefone, cargo, dataAdmissao, dataNascimento, dataAso) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      (email, password, nome,DataNasc,DataAdm, Aso, Cargo,Telefone, CPF ) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  db.query(query, [nome, email, cpf, telefone, cargo, dataAdmissao, dataNascimento, dataAso], (err, result) => {
+  db.query(query, [email, password, nome, DataNasc,DataAdm, Aso, Cargo,Telefone, CPF], (err, result) => {
     if (err) return res.status(500).send(err);
-    res.json({ id: result.insertId, nome, email, cpf, telefone, cargo, dataAdmissao, dataNascimento, dataAso });
+    res.json({ id: result.insertId, nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso, password });
   });
 });
 
 // PUT atualizar usuário (com novos campos)
 app.put('/users/:id', (req, res) => {
   const { id } = req.params;
-  const { nome, email, cpf, telefone, cargo, dataAdmissao, dataNascimento, dataAso } = req.body;
+  const { nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso } = req.body;
 
   if (!nome || !email) {
     return res.status(400).json({ error: 'Nome e email são obrigatórios' });
@@ -76,12 +76,12 @@ app.put('/users/:id', (req, res) => {
     UPDATE users SET 
       nome = ?, 
       email = ?, 
-      cpf = ?, 
-      telefone = ?, 
-      cargo = ?, 
-      dataAdmissao = ?, 
-      dataNascimento = ?, 
-      dataAso = ?
+      CPF = ?, 
+      Telefone = ?, 
+      Cargo = ?, 
+      DataAdm = ?, 
+      DataNasC = ?, 
+      Aso = ?
     WHERE id = ?
   `;
 
@@ -90,7 +90,7 @@ app.put('/users/:id', (req, res) => {
     console.error('Erro ao inserir usuário:', err); // <<< Isso vai mostrar o erro no terminal
     return res.status(500).json({ error: 'Erro ao cadastrar usuário', details: err.message });
   }
-  res.json({ id: result.insertId, nome, email, cpf, telefone, cargo, dataAdmissao, dataNascimento, dataAso });
+  res.json({ id: result.insertId, nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso });
 });
 
 });
