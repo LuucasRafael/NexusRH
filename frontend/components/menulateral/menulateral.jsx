@@ -17,8 +17,14 @@ const MenuLateral = ({ aberto, toggleMenu }) => {
         </li>
         <li className="item-menu">
           <a href="/Funcionarios">
-            <span className="icon"><i className="bi bi-controller"></i></span>
-            {aberto && <span className="txt-link">Games</span>}
+            <span className="icon"><i className="bi bi-people-fill"></i></span>
+            {aberto && <span className="txt-link">Funcionarios</span>}
+          </a>
+        </li>
+        <li className="item-menu">
+          <a href="#">
+            <span className="icon"><i className="bi bi-receipt"></i></span>
+            {aberto && <span className="txt-link">Folha Pontos</span>}
           </a>
         </li>
         <li className="item-menu">

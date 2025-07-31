@@ -145,7 +145,7 @@ function CadastroFuncionario() {
               <button
                 type="button"
                 className="btn-voltar"
-                onClick={() => navigate('/funcionario')}
+                onClick={() => navigate('/Funcionarios')}
               >
                 Voltar
               </button>
