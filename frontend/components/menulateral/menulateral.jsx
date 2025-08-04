@@ -22,21 +22,21 @@ const MenuLateral = ({ aberto, toggleMenu }) => {
           </a>
         </li>
         <li className="item-menu">
-          <a href="#">
+          <a href="/pontos">
             <span className="icon"><i className="bi bi-receipt"></i></span>
             {aberto && <span className="txt-link">Folha Pontos</span>}
           </a>
         </li>
         <li className="item-menu">
-          <a href="#">
-            <span className="icon"><i className="bi bi-person-circle"></i></span>
-            {aberto && <span className="txt-link">Perfil</span>}
+          <a href="/Ferias">
+            <span className="icon"><i class="bi bi-airplane"></i></span>
+            {aberto && <span className="txt-link">Ferias</span>}
           </a>
         </li>
         <li className="item-menu">
-          <a href="#">
-            <span className="icon"><i className="bi bi-gear"></i></span>
-            {aberto && <span className="txt-link">Configurações</span>}
+          <a href="/FolhaPagamento">
+            <span className="icon"><i class="bi bi-card-text"></i></span>
+            {aberto && <span className="txt-link">Folha de Pagamento</span>}
           </a>
         </li>
       </ul>

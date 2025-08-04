@@ -17,9 +17,30 @@ function Cabeca({ menuAberto }) {
     return () => clearInterval(intervalId);
   }, []);
 
-  const handleClick = () => {
-    alert("Ponto registrado!");
-    console.log(currentDateTime);
+  const handleClick =  async () => {
+     if (!usuario?.id) {
+    alert("Usuário não identificado");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:3001/ponto", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        funcionario_id: usuario.id,
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro ao registrar ponto");
+
+    alert("✅ Ponto registrado com sucesso!");
+    console.log("Ponto registrado:", data);
+  } catch (err) {
+    console.error("Erro ao registrar ponto:", err);
+    alert("Erro ao registrar ponto.");
+  }
   };
 
   const handleLogout = () => {

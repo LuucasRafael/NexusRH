@@ -1,0 +1,22 @@
+.tabela-ponto {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.tabela-ponto th,
+.tabela-ponto td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.tabela-ponto th {
+  background-color: #f0f0f0;
+  font-weight: 600;
+  color: #333;
+}

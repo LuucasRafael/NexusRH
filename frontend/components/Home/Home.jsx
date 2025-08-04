@@ -19,8 +19,7 @@ function Home() {
           marginTop: 60
         }}
       >
-        <h1>Bem-vindo à Home!</h1>
-        <p>Conteúdo da página aqui, respeitando menu lateral e cabeçalho.</p>
+        <h1>Seja Bem-vindo!</h1>
       </main>
     </div>
   );

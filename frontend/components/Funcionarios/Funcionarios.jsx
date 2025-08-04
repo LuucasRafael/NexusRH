@@ -70,11 +70,12 @@ function ListaUsers() {
             <div className="lista-cards">
               {users.map(user => (
                 <div key={user.id} className="card-funcionario">
-                  <h3>{user.nome}</h3>
+                  <h3>{user.id}.  {user.nome}</h3>
                   <p><strong>Email:</strong> {user.email}</p>
                   <p><strong>CPF:</strong> {user.CPF}</p>
                   <p><strong>Telefone:</strong> {user.Telefone}</p>
                   <p><strong>Cargo:</strong> {user.Cargo}</p>
+                  <p><strong>Salário:</strong> R$ {parseFloat(user.salario).toFixed(2)}</p>
                   <p><strong>Data de Admissão:</strong> {convertdata(user.DataAdm)}</p>
                   <p><strong>Data de Nascimento:</strong> {convertdata(user.DataNasc)}</p>
                   <p><strong>Data do ASO:</strong> {convertdata(user.Aso)}</p>

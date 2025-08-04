@@ -43,56 +43,89 @@ app.get('/users', (req, res) => {
   });
 });
 
-// POST criar usuário (com os novos campos)
-app.post('/users', (req, res) => {
-  const { nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso, password } = req.body;
+// GET usuário por id
+app.get('/users/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('SELECT * FROM users WHERE id = ?', [id], (err, result) => {
+    if (err) return res.status(500).json({ error: 'Erro no servidor' });
+    if (result.length === 0) return res.status(404).json({ error: 'Usuário não encontrado' });
+    res.json(result[0]);
+  });
+});
 
-  if (!nome || !email) {
-    return res.status(400).json({ error: 'Nome e email são obrigatórios' });
+// POST criar usuário
+app.post('/users', (req, res) => {
+  const { nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso, password, salario } = req.body;
+
+  if (!nome || !email || salario == null) {
+    return res.status(400).json({ error: 'Nome, email e salário são obrigatórios' });
   }
 
   const query = `
     INSERT INTO users 
-      (email, password, nome,DataNasc,DataAdm, Aso, Cargo,Telefone, CPF ) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      (email, password, nome, DataNasc, DataAdm, Aso, Cargo, Telefone, CPF, salario) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  db.query(query, [email, password, nome, DataNasc,DataAdm, Aso, Cargo,Telefone, CPF], (err, result) => {
+  db.query(query, [email, password, nome, DataNasc, DataAdm, Aso, Cargo, Telefone, CPF, salario], (err, result) => {
     if (err) return res.status(500).send(err);
-    res.json({ id: result.insertId, nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso, password });
+    res.json({ id: result.insertId, nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso, salario });
   });
 });
 
-// PUT atualizar usuário (com novos campos)
+// PUT atualizar usuário com senha opcional
 app.put('/users/:id', (req, res) => {
   const { id } = req.params;
-  const { nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso } = req.body;
+  const {
+    nome,
+    email,
+    password,
+    CPF,
+    Telefone,
+    Cargo,
+    DataAdm,
+    DataNasc,
+    Aso,
+    salario
+  } = req.body;
 
-  if (!nome || !email) {
-    return res.status(400).json({ error: 'Nome e email são obrigatórios' });
+  if (!nome || !email || salario == null) {
+    return res.status(400).json({ error: 'Nome, email e salário são obrigatórios' });
   }
 
-  const query = `
-    UPDATE users SET 
-      nome = ?, 
-      email = ?, 
-      CPF = ?, 
-      Telefone = ?, 
-      Cargo = ?, 
-      DataAdm = ?, 
-      DataNasC = ?, 
-      Aso = ?
-    WHERE id = ?
-  `;
+  const fields = [
+    { key: 'nome', value: nome },
+    { key: 'email', value: email },
+    { key: 'CPF', value: CPF },
+    { key: 'Telefone', value: Telefone },
+    { key: 'Cargo', value: Cargo },
+    { key: 'DataAdm', value: DataAdm },
+    { key: 'DataNasc', value: DataNasc },
+    { key: 'Aso', value: Aso },
+    { key: 'salario', value: salario }
+  ];
 
-  db.query(query, [nome, email, cpf, telefone, cargo, dataAdmissao, dataNascimento, dataAso], (err, result) => {
-  if (err) {
-    console.error('Erro ao inserir usuário:', err); // <<< Isso vai mostrar o erro no terminal
-    return res.status(500).json({ error: 'Erro ao cadastrar usuário', details: err.message });
+  if (password && password.trim() !== '') {
+    fields.push({ key: 'password', value: password });
   }
-  res.json({ id: result.insertId, nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso });
-});
 
+  const setClause = fields.map(f => `${f.key} = ?`).join(', ');
+  const values = fields.map(f => f.value);
+  values.push(id);
+
+  const sql = `UPDATE users SET ${setClause} WHERE id = ?`;
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Erro ao atualizar usuário:', err);
+      return res.status(500).json({ error: 'Erro ao atualizar usuário', details: err.message });
+    }
+
+    res.json({
+      message: 'Funcionário atualizado com sucesso',
+      id
+    });
+  });
 });
 
 // DELETE usuário
@@ -102,6 +135,192 @@ app.delete('/users/:id', (req, res) => {
   db.query(query, [id], (err) => {
     if (err) return res.status(500).send(err);
     res.json({ message: 'Usuário apagado com sucesso', id });
+  });
+});
+
+// Férias
+app.get('/ferias', (req, res) => {
+  const sql = `
+    SELECT ferias.*, users.nome 
+    FROM ferias 
+    JOIN users ON ferias.funcionario_id = users.id
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar férias:", err);
+      return res.status(500).json({ error: "Erro ao buscar férias" });
+    }
+    res.json(results);
+  });
+});
+
+app.post('/ferias', (req, res) => {
+  const { funcionario_id, inicio, fim } = req.body;
+
+  if (!funcionario_id || !inicio || !fim) {
+    return res.status(400).json({ error: 'Campos obrigatórios faltando' });
+  }
+
+  const sql = `
+    INSERT INTO ferias (funcionario_id, inicio, fim)
+    VALUES (?, ?, ?)
+  `;
+
+  db.query(sql, [funcionario_id, inicio, fim], (err, result) => {
+    if (err) {
+      console.error("Erro ao cadastrar férias:", err);
+      return res.status(500).json({ error: "Erro ao cadastrar férias" });
+    }
+
+    res.json({ message: "Férias cadastradas com sucesso", id: result.insertId });
+  });
+});
+
+// Pontos com alternância automática entre entrada/saída
+app.post('/ponto', (req, res) => {
+  const { funcionario_id } = req.body;
+
+  if (!funcionario_id) {
+    return res.status(400).json({ error: 'Funcionário é obrigatório' });
+  }
+
+  const now = new Date();
+  const dataHoje = now.toISOString().slice(0, 10);
+
+  const sqlUltimo = `
+    SELECT tipo FROM pontos 
+    WHERE funcionario_id = ? AND DATE(horario) = ?
+    ORDER BY horario DESC LIMIT 1
+  `;
+
+  db.query(sqlUltimo, [funcionario_id, dataHoje], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Erro ao consultar pontos' });
+    }
+
+    let novoTipo = 'entrada';
+
+    if (results.length > 0) {
+      const ultimoTipo = results[0].tipo;
+      novoTipo = ultimoTipo === 'entrada' ? 'saida' : 'entrada';
+    }
+
+    const sqlInsert = `INSERT INTO pontos (funcionario_id, tipo, horario) VALUES (?, ?, ?)`;
+    db.query(sqlInsert, [funcionario_id, novoTipo, now], (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Erro ao registrar ponto' });
+      }
+
+      res.json({ message: `Ponto de ${novoTipo} registrado com sucesso` });
+    });
+  });
+});
+
+app.get('/ponto/:id', (req, res) => {
+  const funcionarioId = req.params.id;
+
+  const sql = `
+    SELECT * FROM pontos
+    WHERE funcionario_id = ?
+    ORDER BY horario DESC
+  `;
+
+  db.query(sql, [funcionarioId], (err, result) => {
+    if (err) {
+      console.error("Erro ao buscar pontos:", err);
+      return res.status(500).json({ error: 'Erro ao buscar pontos' });
+    }
+
+    res.json(result);
+  });
+});
+
+// Descontos
+app.post('/descontos', (req, res) => {
+  const { funcionario_id, valor, descricao } = req.body;
+
+  if (!funcionario_id || valor == null) {
+    return res.status(400).json({ error: 'Funcionário e valor são obrigatórios' });
+  }
+
+  const sql = `INSERT INTO descontos (funcionario_id, valor, descricao) VALUES (?, ?, ?)`;
+  db.query(sql, [funcionario_id, valor, descricao], (err, result) => {
+    if (err) {
+      console.error("Erro ao inserir desconto:", err);
+      return res.status(500).json({ error: 'Erro ao registrar desconto' });
+    }
+
+    res.json({ message: 'Desconto registrado com sucesso' });
+  });
+});
+
+// Folha de pagamento - listagem
+app.get('/folha', (req, res) => {
+  const sql = `
+    SELECT 
+      u.id,
+      u.nome,
+      u.Cargo,
+      u.salario,
+      IFNULL(SUM(d.valor), 0) AS total_descontos,
+      (u.salario - IFNULL(SUM(d.valor), 0)) AS salario_liquido
+    FROM users u
+    LEFT JOIN descontos d ON u.id = d.funcionario_id
+    GROUP BY u.id
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Erro ao gerar folha:", err);
+      return res.status(500).json({ error: 'Erro ao gerar folha de pagamento' });
+    }
+
+    res.json(results);
+  });
+});
+
+// Folha de pagamento - calcular e registrar
+app.post('/folha/calcular', (req, res) => {
+  const sql = `
+    SELECT 
+      u.id as funcionario_id,
+      u.salario,
+      IFNULL(SUM(d.valor), 0) AS total_descontos,
+      (u.salario - IFNULL(SUM(d.valor), 0)) AS salario_liquido
+    FROM users u
+    LEFT JOIN descontos d ON u.id = d.funcionario_id
+    GROUP BY u.id
+  `;
+
+  db.query(sql, (err, folhas) => {
+    if (err) {
+      console.error("Erro ao calcular folha:", err);
+      return res.status(500).json({ error: 'Erro ao calcular folha' });
+    }
+
+    const insertSql = `
+      INSERT INTO folhas_pagamento (funcionario_id, salario_base, total_descontos, salario_liquido)
+      VALUES ?
+    `;
+
+    const values = folhas.map(f => [
+      f.funcionario_id,
+      f.salario,
+      f.total_descontos,
+      f.salario_liquido,
+    ]);
+
+    db.query(insertSql, [values], (err2) => {
+      if (err2) {
+        console.error("Erro ao registrar folha:", err2);
+        return res.status(500).json({ error: 'Erro ao salvar folha no banco' });
+      }
+
+      res.json({ message: "Folha registrada com sucesso" });
+    });
   });
 });
 
