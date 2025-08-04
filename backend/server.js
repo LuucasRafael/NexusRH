@@ -7,10 +7,11 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'nexusrh'
+  host: 'nexusrh.cdm4ucasmeds.sa-east-1.rds.amazonaws.com',
+  user: 'admin',
+  password: '1106Lucas',
+  database: 'nexusrh',
+  port: 3306
 });
 
 // LOGIN (sem alteração)
