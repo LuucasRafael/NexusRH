@@ -58,7 +58,7 @@ app.get('/users/:id', (req, res) => {
 app.post('/users', (req, res) => {
   const { nome, email, CPF, Telefone, Cargo, DataAdm, DataNasc, Aso, password, salario } = req.body;
 
-  if (!nome || !email || salario == null) {
+  if (!nome || !email || !salario ) {
     return res.status(400).json({ error: 'Nome, email e salário são obrigatórios' });
   }
 

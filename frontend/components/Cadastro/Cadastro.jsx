@@ -16,6 +16,7 @@ function CadastroFuncionario() {
   const [dataAdmissao, setDataAdmissao] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
   const [dataAso, setDataAso] = useState('');
+  const [salario, setSalario] = useState('');
 
   const navigate = useNavigate();
   const toggleMenu = () => setMenuAberto(prev => !prev);
@@ -30,6 +31,7 @@ function CadastroFuncionario() {
     setDataAdmissao('');
     setDataNascimento('');
     setDataAso('');
+    setSalario('')
   }
 
   // Função para enviar os dados ao backend
@@ -37,7 +39,7 @@ function CadastroFuncionario() {
     e.preventDefault();
 
     // Validação simples dos campos
-    if (!nome.trim() || !email.trim() || !cpf.trim() || !telefone.trim() || !cargo.trim() || !dataAdmissao || !dataNascimento || !dataAso) {
+    if (!nome.trim() || !email.trim() || !cpf.trim() || !telefone.trim() || !cargo.trim() || !dataAdmissao || !dataNascimento || !dataAso || !salario.trim()) {
       alert('Por favor, preencha todos os campos!');
       return;
     }
@@ -53,7 +55,9 @@ function CadastroFuncionario() {
       Cargo: cargo.trim(),     // MUDADO: 'Cargo' maiúsculo
       DataAdm: dataAdmissao,   // MUDADO: 'DataAdm' maiúsculo
       DataNasc: dataNascimento, // MUDADO: 'DataNasc' maiúsculo
-      Aso: dataAso
+      Aso: dataAso,
+      salario: salario.trim()
+      
     };
 
     // Envia para backend
@@ -123,6 +127,11 @@ function CadastroFuncionario() {
             <div className="form-group">
               <label>Cargo</label>
               <input value={cargo} onChange={e => setCargo(e.target.value)} />
+            </div>
+
+            <div className="form-group">
+              <label>Salario</label>
+              <input value={salario} onChange={e => setSalario(e.target.value)} />
             </div>
 
             <div className="form-group">
